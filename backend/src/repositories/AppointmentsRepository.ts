@@ -8,7 +8,7 @@ class AppointmentRepository {
     this.appointments = [];
   }
 
-  public list(): Appointment[] {
+  public all(): Appointment[] {
     return this.appointments;
   }
 
