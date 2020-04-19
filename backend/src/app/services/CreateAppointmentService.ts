@@ -4,6 +4,7 @@ import { getCustomRepository, getRepository } from 'typeorm';
 import Appointment from '../models/Appointment';
 import AppointmentsRepository from '../repositories/AppointmentsRepository';
 import User from '../models/User';
+import AppError from '../../errors/AppError';
 
 interface Request {
   provider_id: string;
@@ -22,7 +23,7 @@ class CreateAppointmentService {
     );
 
     if (findAppointmentInSameDate) {
-      throw Error('This appointment is already booked');
+      throw new AppError('This appointment is already booked');
     }
 
     const findAppointmentUser = await usersRepository.findOne({
@@ -30,7 +31,7 @@ class CreateAppointmentService {
     });
 
     if (!findAppointmentUser) {
-      throw Error('User not found');
+      throw new AppError('User not found');
     }
 
     const appointment = appointmentsRepostiory.create({

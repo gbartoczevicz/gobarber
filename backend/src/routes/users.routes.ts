@@ -16,19 +16,15 @@ usersRouter.post('/', async (req, res) => {
 
   const createUserService = new CreateUserService();
 
-  try {
-    const user = await createUserService.execute({
-      name,
-      email,
-      password,
-    });
+  const user = await createUserService.execute({
+    name,
+    email,
+    password,
+  });
 
-    delete user.password;
+  delete user.password;
 
-    return res.json(user);
-  } catch (err) {
-    return res.status(400).json({ error: err.message });
-  }
+  return res.json(user);
 });
 
 usersRouter.patch(
@@ -41,18 +37,14 @@ usersRouter.patch(
 
     const updateUserAvatar = new UpdateUserAvatarService();
 
-    try {
-      const user = await updateUserAvatar.execute({
-        user_id: id,
-        filename: file.filename,
-      });
+    const user = await updateUserAvatar.execute({
+      user_id: id,
+      filename: file.filename,
+    });
 
-      delete user.password;
+    delete user.password;
 
-      return res.json(user);
-    } catch (err) {
-      return res.status(400).json({ error: err.message });
-    }
+    return res.json(user);
   },
 );
 
