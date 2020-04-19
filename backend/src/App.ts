@@ -3,6 +3,8 @@ import 'reflect-metadata';
 import express from 'express';
 
 import routes from './routes';
+import uploadConfig from './config/upload';
+
 import './database';
 
 class App {
@@ -21,6 +23,8 @@ class App {
 
   private routes(): void {
     this.server.use(routes);
+
+    this.server.use('/files', express.static(uploadConfig.directory));
   }
 }
 
