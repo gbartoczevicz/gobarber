@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 
 import express, { Request, Response, NextFunction } from 'express';
+import cors from 'cors';
 
 import 'express-async-errors';
 
@@ -22,6 +23,7 @@ class App {
   }
 
   private middlewares(): void {
+    this.server.use(cors());
     this.server.use(express.json());
   }
 
