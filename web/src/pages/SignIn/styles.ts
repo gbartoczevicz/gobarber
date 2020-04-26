@@ -81,6 +81,12 @@ export const Content = styled.div`
       margin-right: 16px;
     }
   }
+
+  @media (max-width: 375px) {
+    form {
+      max-width: 290px;
+    }
+  }
 `;
 
 export const Background = styled.div`
