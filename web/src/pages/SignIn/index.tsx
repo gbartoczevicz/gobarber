@@ -17,12 +17,12 @@ const SignIn: React.FC = () => {
         <form>
           <h1>Faça seu logon</h1>
 
-          <Input name="email" icon={FiMail} placeholder="email" />
+          <Input name="email" icon={FiMail} placeholder="E-Mail" />
           <Input
             name="password"
             icon={FiLock}
             type="password"
-            placeholder="senha"
+            placeholder="Senha"
           />
 
           <Button type="submit">Entrar</Button>
