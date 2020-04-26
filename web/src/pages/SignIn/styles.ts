@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { shade } from 'polished';
 
 import backgroundImg from '../../assets/sign-in-background.png';
 
@@ -25,40 +24,6 @@ export const Content = styled.div`
     h1 {
       margin-bottom: 24px;
       color: #f4ede8;
-    }
-
-    input {
-      background: #232129;
-      border-radius: 8px;
-      border: #232119 solid 2px;
-      padding: 16px;
-      width: 100%;
-      color: #f4ede8;
-
-      &::placeholder {
-        color: #666360;
-      }
-
-      & + input {
-        margin-top: 8px;
-      }
-    }
-
-    button {
-      background: #ff9000;
-      height: 58px;
-      border-radius: 8px;
-      border: 0;
-      padding: 0 16px;
-      width: 100%;
-      color: #312e38;
-      font-weight: 500;
-      margin-top: 18px;
-      transition: background-color 0.4s;
-
-      &:hover {
-        background: ${shade(0.2, '#ff9000')};
-      }
     }
 
     a {
