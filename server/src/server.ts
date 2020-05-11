@@ -1,4 +1,4 @@
-import server from './App';
+import server from '@shared/infra/http/App';
 
 const { log } = console;
 
