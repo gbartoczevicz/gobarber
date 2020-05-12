@@ -1,24 +1,26 @@
 import { startOfHour } from 'date-fns';
-import { getCustomRepository, getRepository } from 'typeorm';
 
-import Appointment from '@modules/appointments/infra/typeorm/entities/Appointment';
-import AppointmentsRepository from '@modules/appointments/infra/typeorm/repositories/AppointmentsRepository';
-import User from '@modules/users/infra/typeorm/entities/User';
 import AppError from '@shared/errors/AppError';
 
-interface Request {
-  provider_id: string;
-  date: Date;
-}
+import Appointment from '@modules/appointments/infra/typeorm/entities/Appointment';
+
+import ICreateAppointmentDTO from '@modules/appointments/dtos/ICreateAppointmentDTO';
+import IAppointmentsRepository from '@modules/appointments/repositories/IAppointmentsRepository';
 
 class CreateAppointmentService {
-  public async execute({ provider_id, date }: Request): Promise<Appointment> {
-    const appointmentsRepostiory = getCustomRepository(AppointmentsRepository);
-    const usersRepository = getRepository(User);
+  private appointmentsRepository: IAppointmentsRepository;
 
+  constructor(appointmentsRepository: IAppointmentsRepository) {
+    this.appointmentsRepository = appointmentsRepository;
+  }
+
+  public async execute({
+    provider_id,
+    date,
+  }: ICreateAppointmentDTO): Promise<Appointment> {
     const appointmentDate = startOfHour(date);
 
-    const findAppointmentInSameDate = await appointmentsRepostiory.findByDate(
+    const findAppointmentInSameDate = await this.appointmentsRepository.findByDate(
       appointmentDate,
     );
 
@@ -26,15 +28,7 @@ class CreateAppointmentService {
       throw new AppError('This appointment is already booked');
     }
 
-    const findAppointmentUser = await usersRepository.findOne({
-      where: { id: provider_id },
-    });
-
-    if (!findAppointmentUser) {
-      throw new AppError('User not found');
-    }
-
-    const appointment = appointmentsRepostiory.create({
+    const appointment = await this.appointmentsRepository.create({
       provider_id,
       date: appointmentDate,
     });
