@@ -2,7 +2,7 @@ import { startOfHour } from 'date-fns';
 import { getCustomRepository, getRepository } from 'typeorm';
 
 import Appointment from '@modules/appointments/infra/typeorm/entities/Appointment';
-import AppointmentsRepository from '@modules/appointments/repositories/AppointmentsRepository';
+import AppointmentsRepository from '@modules/appointments/infra/typeorm/repositories/AppointmentsRepository';
 import User from '@modules/users/infra/typeorm/entities/User';
 import AppError from '@shared/errors/AppError';
 
@@ -38,8 +38,6 @@ class CreateAppointmentService {
       provider_id,
       date: appointmentDate,
     });
-
-    await appointmentsRepostiory.save(appointment);
 
     return appointment;
   }
