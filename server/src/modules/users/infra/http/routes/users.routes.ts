@@ -12,10 +12,10 @@ const usersRouter = Router();
 
 const upload = multer(uploadConfig);
 
-const usersRepository = new UsersRepository();
-
 usersRouter.post('/', async (req, res) => {
   const { name, email, password } = req.body;
+
+  const usersRepository = new UsersRepository();
 
   const createUserService = new CreateUserService(usersRepository);
 
@@ -37,6 +37,8 @@ usersRouter.patch(
   async (req, res) => {
     const { file } = req;
     const { id } = req.user;
+
+    const usersRepository = new UsersRepository();
 
     const updateUserAvatar = new UpdateUserAvatarService(usersRepository);
 

@@ -4,10 +4,11 @@ import CreateUserSessionService from '@modules/users/services/CreateUserSessionS
 import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepository';
 
 const sessionRouter = Router();
-const usersReporitory = new UsersRepository();
 
 sessionRouter.post('/', async (req, res) => {
   const { email, password } = req.body;
+
+  const usersReporitory = new UsersRepository();
 
   const createUserSession = new CreateUserSessionService(usersReporitory);
 
