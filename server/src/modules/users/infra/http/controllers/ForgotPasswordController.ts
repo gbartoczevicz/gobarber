@@ -15,7 +15,7 @@ class ForgotPasswordController {
       email,
     });
 
-    return res.status(204);
+    return res.status(204).json();
   }
 }
 
