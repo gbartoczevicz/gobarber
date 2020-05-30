@@ -1,4 +1,5 @@
 import { injectable, inject } from 'tsyringe';
+import path from 'path';
 
 import AppError from '@shared/errors/AppError';
 
@@ -37,6 +38,13 @@ class SendForgotPasswordEmailService {
 
     const { token } = await this.userTokensRepository.generate(user.id);
 
+    const forgotPasswordTemplate = path.resolve(
+      __dirname,
+      '..',
+      'views',
+      'forgot-password.hbs',
+    );
+
     await this.mailProvider.send({
       to: {
         name: user.name,
@@ -44,10 +52,11 @@ class SendForgotPasswordEmailService {
       },
       subject: 'Equipe GoBarber ✂️ Recuperação de Senha',
       template: {
-        template: 'Olár {{name}}, pegue seu token imediatamente<br />{{token}}',
+        file: forgotPasswordTemplate,
         variables: {
           name: user.name,
-          token,
+          email: user.email,
+          link: `http://localhost:3000/reset?token=${token}`,
         },
       },
     });
