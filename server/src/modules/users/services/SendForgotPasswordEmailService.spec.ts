@@ -6,11 +6,10 @@ import FakeMailProvider from '@shared/container/providers/MailProvider/fakes/Fak
 
 import AppError from '@shared/errors/AppError';
 
+let sendForgotPasswordEmail: SendForgotPasswordEmailService;
 let fakeUsersRepository: FakeUsersRepository;
 let fakeUserTokensRepository: FakeUserTokensRepository;
 let fakeMailProvider: FakeMailProvider;
-
-let sendForgotPasswordEmail: SendForgotPasswordEmailService;
 
 describe('SendForgotPasswordEmail', () => {
   beforeEach(() => {

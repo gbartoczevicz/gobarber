@@ -1,25 +1,29 @@
 import CreateUserSessionService from '@modules/users/services/CreateUserSessionService';
 import CreateUserService from '@modules/users/services/CreateUserService';
 
-import UsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository';
+import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository';
 import FakeHashProvider from '@modules/users/providers/HashProvider/fakes/FakeHashProvider';
 
 import AppError from '@shared/errors/AppError';
 
+let createUserSession: CreateUserSessionService;
+let createUser: CreateUserService;
+let fakeUsersRepository: FakeUsersRepository;
+let fakeHashProvider: FakeHashProvider;
+
 describe('CreateUserSession', () => {
+  beforeEach(() => {
+    fakeUsersRepository = new FakeUsersRepository();
+    fakeHashProvider = new FakeHashProvider();
+
+    createUserSession = new CreateUserSessionService(
+      fakeUsersRepository,
+      fakeHashProvider,
+    );
+    createUser = new CreateUserService(fakeUsersRepository, fakeHashProvider);
+  });
+
   it('should be able to create user session', async () => {
-    const fakeUsersRepository = new UsersRepository();
-    const fakeHashProvider = new FakeHashProvider();
-
-    const createUser = new CreateUserService(
-      fakeUsersRepository,
-      fakeHashProvider,
-    );
-    const createUserSession = new CreateUserSessionService(
-      fakeUsersRepository,
-      fakeHashProvider,
-    );
-
     const user = await createUser.execute({
       name: 'Lorem Ipsum',
       email: 'lorem@ipsum.dolor',
@@ -36,14 +40,6 @@ describe('CreateUserSession', () => {
   });
 
   it('should not create user session when their email does not exists', async () => {
-    const fakeUsersRepository = new UsersRepository();
-    const fakeHashProvider = new FakeHashProvider();
-
-    const createUserSession = new CreateUserSessionService(
-      fakeUsersRepository,
-      fakeHashProvider,
-    );
-
     await expect(
       createUserSession.execute({
         email: 'lorem@ipsum.dolor',
@@ -53,18 +49,6 @@ describe('CreateUserSession', () => {
   });
 
   it('should not create user session when their password does not match', async () => {
-    const fakeUsersRepository = new UsersRepository();
-    const fakeHashProvider = new FakeHashProvider();
-
-    const createUser = new CreateUserService(
-      fakeUsersRepository,
-      fakeHashProvider,
-    );
-    const createUserSession = new CreateUserSessionService(
-      fakeUsersRepository,
-      fakeHashProvider,
-    );
-
     await createUser.execute({
       name: 'Lorem Ipsum',
       email: 'lorem@ipsum.dolor',
