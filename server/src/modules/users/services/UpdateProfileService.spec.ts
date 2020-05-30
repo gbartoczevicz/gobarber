@@ -64,6 +64,46 @@ describe('UpdateProfile', () => {
     expect(updatedUser.password).toBe('updated_password');
   });
 
+  it('should be able to keep user name when name from request is null', async () => {
+    const save = jest.spyOn(fakeUsersRepository, 'save');
+
+    const user = await fakeUsersRepository.create({
+      name: 'Lorem Ipsum',
+      email: 'lorem@ipsum.dolor',
+      password: 'sit_amet',
+    });
+
+    const updatedUser = await updateProfile.execute({
+      user_id: user.id,
+      email: 'new+lorem@ipsum.dolor',
+    });
+
+    expect(save).toHaveBeenCalledWith(updatedUser);
+
+    expect(updatedUser.email).toBe('new+lorem@ipsum.dolor');
+    expect(updatedUser.name).toBe('Lorem Ipsum');
+  });
+
+  it('should be able to keep user email when email from request is null', async () => {
+    const save = jest.spyOn(fakeUsersRepository, 'save');
+
+    const user = await fakeUsersRepository.create({
+      name: 'Lorem Ipsum',
+      email: 'lorem@ipsum.dolor',
+      password: 'sit_amet',
+    });
+
+    const updatedUser = await updateProfile.execute({
+      user_id: user.id,
+      name: 'Lorem Ipsu',
+    });
+
+    expect(save).toHaveBeenCalledWith(updatedUser);
+
+    expect(updatedUser.email).toBe('lorem@ipsum.dolor');
+    expect(updatedUser.name).toBe('Lorem Ipsu');
+  });
+
   it('should not be able to update profile when user does not exists', async () => {
     await expect(
       updateProfile.execute({
