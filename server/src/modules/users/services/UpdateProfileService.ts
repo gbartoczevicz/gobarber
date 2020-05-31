@@ -56,7 +56,7 @@ class UpdateProfileService {
 
     if (password) {
       if (!current_password) {
-        throw new AppError('Old password must be provided');
+        throw new AppError('Current password must be provided');
       }
 
       const checkPassword = await this.hashProvider.compare(
@@ -65,7 +65,7 @@ class UpdateProfileService {
       );
 
       if (!checkPassword) {
-        throw new AppError('Old password does not match');
+        throw new AppError('Current password does not match');
       }
 
       user.password = await this.hashProvider.generate(password);
