@@ -5,8 +5,13 @@ import AppError from '@shared/errors/AppError';
 
 import Appointment from '@modules/appointments/infra/typeorm/entities/Appointment';
 
-import ICreateAppointmentDTO from '@modules/appointments/dtos/ICreateAppointmentDTO';
 import IAppointmentsRepository from '@modules/appointments/repositories/IAppointmentsRepository';
+
+interface IRequest {
+  provider_id: string;
+  user_id: string;
+  date: Date;
+}
 
 @injectable()
 class CreateAppointmentService {
@@ -20,9 +25,10 @@ class CreateAppointmentService {
   }
 
   public async execute({
-    provider_id,
     date,
-  }: ICreateAppointmentDTO): Promise<Appointment> {
+    provider_id,
+    user_id,
+  }: IRequest): Promise<Appointment> {
     const appointmentDate = startOfHour(date);
 
     const findAppointmentInSameDate = await this.appointmentsRepository.findByDate(
@@ -34,8 +40,9 @@ class CreateAppointmentService {
     }
 
     const appointment = await this.appointmentsRepository.create({
-      provider_id,
       date: appointmentDate,
+      provider_id,
+      user_id,
     });
 
     return appointment;

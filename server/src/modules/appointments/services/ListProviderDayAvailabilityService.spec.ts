@@ -1,3 +1,5 @@
+import { uuid } from 'uuidv4';
+
 import ListProviderDayAvailabilityService from '@modules/appointments/services/ListProviderDayAvailabilityService';
 
 import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository';
@@ -27,13 +29,15 @@ describe('ListProviderDayAvailability', () => {
     });
 
     await fakeAppointmentsRepository.create({
-      provider_id: provider.id,
       date: new Date(2020, 4, 20, 14, 0, 0),
+      provider_id: provider.id,
+      user_id: uuid(),
     });
 
     await fakeAppointmentsRepository.create({
-      provider_id: provider.id,
       date: new Date(2020, 4, 20, 15, 0, 0),
+      provider_id: provider.id,
+      user_id: uuid(),
     });
 
     jest
