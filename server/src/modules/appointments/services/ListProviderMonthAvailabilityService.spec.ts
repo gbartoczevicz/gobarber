@@ -19,7 +19,7 @@ describe('ListProviderMonthAvailability', () => {
     );
   });
 
-  it('should be to list the month availability from provider', async () => {
+  it('should be able to list the month availability from provider', async () => {
     const provider = await fakeUsersRepository.create({
       name: 'Provider',
       email: 'provider@email.com',
@@ -103,7 +103,7 @@ describe('ListProviderMonthAvailability', () => {
     );
   });
 
-  it('should not be to list the month availability from a non existing provider', async () => {
+  it('should not be able to list the month availability from a non existing provider', async () => {
     await expect(
       listProviderMonthAvailability.execute({
         provider_id: 'non-existing-user',
