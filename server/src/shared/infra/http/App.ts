@@ -3,6 +3,7 @@ import 'reflect-metadata';
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import 'express-async-errors';
+import { errors } from 'celebrate';
 
 import uploadConfig from '@config/upload';
 import AppError from '@shared/errors/AppError';
@@ -34,6 +35,7 @@ class App {
   }
 
   private exceptionHandler(): void {
+    this.server.use(errors());
     this.server.use(
       async (err: Error, req: Request, res: Response, _: NextFunction) => {
         if (err instanceof AppError) {
