@@ -8,14 +8,14 @@ interface IMailConfig {
   };
 }
 
-const mailConfig: IMailConfig = {
-  driver: 'ethereal',
+const mailConfig = {
+  driver: process.env.MAIL_DRIVER,
   defaults: {
     from: {
-      email: process.env.MAIL_FROM_DEFAULTS || 'team@gobarber.com',
-      name: process.env.NAME_FROM_DEFAULTS || 'GoBarber Team',
+      email: process.env.MAIL_FROM,
+      name: process.env.NAME_FROM,
     },
   },
-};
+} as IMailConfig;
 
 export default mailConfig;
