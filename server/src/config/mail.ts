@@ -9,7 +9,7 @@ interface IMailConfig {
 }
 
 const mailConfig: IMailConfig = {
-  driver: 'ses',
+  driver: 'ethereal',
   defaults: {
     from: {
       email: process.env.MAIL_FROM_DEFAULTS || 'team@gobarber.com',
