@@ -32,10 +32,7 @@ class App {
   private routes(): void {
     this.server.use(routes);
 
-    this.server.use(
-      `${process.env.STATIC_FILE_URN}`,
-      express.static(uploadConfig.uploadsDir),
-    );
+    this.server.use(`/files`, express.static(uploadConfig.uploadsDir));
   }
 
   private exceptionHandler(): void {
@@ -49,7 +46,13 @@ class App {
           });
         }
 
-        console.error(err);
+        const { log } = console;
+
+        log({
+          status: 500,
+          message: err.message,
+          stack: err.stack,
+        });
 
         return res.status(500).json({
           status: 'error',
