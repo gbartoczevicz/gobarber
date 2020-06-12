@@ -40,11 +40,9 @@ class User {
       return null;
     }
 
-    console.log(uploadConfig.driver);
-
     switch (uploadConfig.driver) {
       case 'disk':
-        return `http://${process.env.SERVER_URL}/files/${this.avatar}`;
+        return `${process.env.SERVER_URL}/files/${this.avatar}`;
       case 's3':
         return `https://${uploadConfig.config.aws.bucket}.s3-us-west-1.amazonaws.com/${this.avatar}`;
       default:
