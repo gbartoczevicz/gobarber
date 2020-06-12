@@ -2,6 +2,7 @@ import { injectable, inject } from 'tsyringe';
 
 import IAppointmentsRepository from '@modules/appointments/repositories/IAppointmentsRepository';
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
+import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICacheProvider';
 
 import Appointment from '@modules/appointments/infra/typeorm/entities/Appointment';
 
@@ -20,13 +21,17 @@ class ListProviderAppointmentsService {
 
   private usersRepository: IUsersRepository;
 
+  private cacheProvider: ICacheProvider;
+
   constructor(
     @inject('UsersRepository') usersRepository: IUsersRepository,
     @inject('AppointmentsRepository')
     appointmentsRepository: IAppointmentsRepository,
+    @inject('CacheProvider') cacheProvider: ICacheProvider,
   ) {
     this.usersRepository = usersRepository;
     this.appointmentsRepository = appointmentsRepository;
+    this.cacheProvider = cacheProvider;
   }
 
   public async execute({
@@ -41,14 +46,24 @@ class ListProviderAppointmentsService {
       throw new AppError('Provider not found');
     }
 
-    const appointments = await this.appointmentsRepository.findAllInDayFromProvider(
-      {
-        provider_id,
-        year,
-        month,
-        day,
-      },
+    const cacheKey = `provider-appointments:${provider_id}:${year}-${month}-${day}`;
+
+    let appointments = await this.cacheProvider.recover<Appointment[]>(
+      cacheKey,
     );
+
+    if (!appointments) {
+      appointments = await this.appointmentsRepository.findAllInDayFromProvider(
+        {
+          provider_id,
+          year,
+          month,
+          day,
+        },
+      );
+
+      await this.cacheProvider.save(cacheKey, appointments);
+    }
 
     return appointments;
   }
