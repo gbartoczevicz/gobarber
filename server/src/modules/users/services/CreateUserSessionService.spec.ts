@@ -1,5 +1,4 @@
 import CreateUserSessionService from '@modules/users/services/CreateUserSessionService';
-import CreateUserService from '@modules/users/services/CreateUserService';
 
 import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository';
 import FakeHashProvider from '@modules/users/providers/HashProvider/fakes/FakeHashProvider';
@@ -7,7 +6,6 @@ import FakeHashProvider from '@modules/users/providers/HashProvider/fakes/FakeHa
 import AppError from '@shared/errors/AppError';
 
 let createUserSession: CreateUserSessionService;
-let createUser: CreateUserService;
 let fakeUsersRepository: FakeUsersRepository;
 let fakeHashProvider: FakeHashProvider;
 
@@ -20,11 +18,10 @@ describe('CreateUserSession', () => {
       fakeUsersRepository,
       fakeHashProvider,
     );
-    createUser = new CreateUserService(fakeUsersRepository, fakeHashProvider);
   });
 
   it('should be able to create user session', async () => {
-    const user = await createUser.execute({
+    const user = await fakeUsersRepository.create({
       name: 'Lorem Ipsum',
       email: 'lorem@ipsum.dolor',
       password: 'sit_amet',
@@ -49,7 +46,7 @@ describe('CreateUserSession', () => {
   });
 
   it('should not create user session when their password does not match', async () => {
-    await createUser.execute({
+    await fakeUsersRepository.create({
       name: 'Lorem Ipsum',
       email: 'lorem@ipsum.dolor',
       password: 'sit_amet',
