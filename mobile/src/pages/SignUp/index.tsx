@@ -20,6 +20,7 @@ import Button from '../../components/Button';
 
 import logo from '../../assets/logo.png';
 import { Container, Title, BackToSignIn, BackToSignInText } from './styles';
+import client from '../../services/client';
 
 interface SignUpFormData {
   name: string;
@@ -34,42 +35,45 @@ const SignUp: React.FC = () => {
 
   const navigation = useNavigation();
 
-  const handleSignUp = useCallback(async (data: SignUpFormData) => {
-    formRef.current?.setErrors({});
+  const handleSignUp = useCallback(
+    async (data: SignUpFormData) => {
+      formRef.current?.setErrors({});
 
-    const schema = Yup.object().shape({
-      name: Yup.string().required('Nome obrigatório'),
-      email: Yup.string()
-        .required('E-Mail obrigatório')
-        .email('Digite um e-mail válido'),
-      password: Yup.string().min(8, 'No mínimo 8 digitos'),
-    });
-    try {
-      await schema.validate(data, { abortEarly: false });
+      const schema = Yup.object().shape({
+        name: Yup.string().required('Nome obrigatório'),
+        email: Yup.string()
+          .required('E-Mail obrigatório')
+          .email('Digite um e-mail válido'),
+        password: Yup.string().min(8, 'No mínimo 8 digitos'),
+      });
+      try {
+        await schema.validate(data, { abortEarly: false });
 
-      // await client.post('/users', data);
+        await client.post('/users', data);
 
-      // history.push('/');
+        Alert.alert(
+          'Cadastro realizado com sucesso!',
+          'Você já pode fazer seu logon no GoBarber',
+        );
 
-      Alert.alert(
-        'Cadastro realizado com sucesso!',
-        'Você já pode fazer seu logon no GoBarber',
-      );
-    } catch (err) {
-      if (err instanceof Yup.ValidationError) {
-        const errors = getValidationErrors(err);
+        navigation.goBack();
+      } catch (err) {
+        if (err instanceof Yup.ValidationError) {
+          const errors = getValidationErrors(err);
 
-        formRef.current?.setErrors(errors);
+          formRef.current?.setErrors(errors);
 
-        return;
+          return;
+        }
+
+        Alert.alert(
+          'Erro na autenticação',
+          'Ocorreu um erro ao fazer o cadastro, cheque as credenciais',
+        );
       }
-
-      Alert.alert(
-        'Erro na autenticação',
-        'Ocorreu um erro ao fazer o cadastro, cheque as credenciais',
-      );
-    }
-  }, []);
+    },
+    [navigation],
+  );
 
   return (
     <>
