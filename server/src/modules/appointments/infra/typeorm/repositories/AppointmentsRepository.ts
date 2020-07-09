@@ -8,6 +8,7 @@ import ICreateAppointmentDTO from '@modules/appointments/dtos/ICreateAppointment
 import IFindAppointmentByDateAndProviderDTO from '@modules/appointments/dtos/IFindAppointmentByDateAndProviderDTO';
 import IFindAllInMonthFromProviderDTO from '@modules/appointments/dtos/IFindAllInMonthFromProviderDTO';
 import IFindAllInDayFromProviderDTO from '@modules/appointments/dtos/IFindAllInDayFromProviderDTO';
+import User from '@modules/users/infra/typeorm/entities/User';
 
 class AppointmentRepository implements IAppointmentsRepository {
   private repository: Repository<Appointment>;
@@ -80,6 +81,7 @@ class AppointmentRepository implements IAppointmentsRepository {
         `,
         ),
       },
+      relations: ['user'],
     });
 
     return findAppointments;
