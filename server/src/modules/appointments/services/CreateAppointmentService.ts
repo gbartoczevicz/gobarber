@@ -7,6 +7,7 @@ import Appointment from '@modules/appointments/infra/typeorm/entities/Appointmen
 
 import IAppointmentsRepository from '@modules/appointments/repositories/IAppointmentsRepository';
 import INotificationsRepository from '@modules/notifications/repositories/INotificationsRepository';
+import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICacheProvider';
 
 interface IRequest {
@@ -21,6 +22,8 @@ class CreateAppointmentService {
 
   private notificationsRepository: INotificationsRepository;
 
+  private usersRepository: IUsersRepository;
+
   private cacheProvider: ICacheProvider;
 
   constructor(
@@ -28,11 +31,14 @@ class CreateAppointmentService {
     appointmentsRepository: IAppointmentsRepository,
     @inject('NotificationsRepository')
     notificationsRepository: INotificationsRepository,
+    @inject('UsersRepository')
+    usersRepository: IUsersRepository,
     @inject('CacheProvider')
     cacheProvider: ICacheProvider,
   ) {
     this.appointmentsRepository = appointmentsRepository;
     this.notificationsRepository = notificationsRepository;
+    this.usersRepository = usersRepository;
     this.cacheProvider = cacheProvider;
   }
 
@@ -51,6 +57,12 @@ class CreateAppointmentService {
       throw new AppError('You can not create an appointment with yourself');
     }
 
+    const provider = await this.usersRepository.findById(provider_id);
+
+    if (!provider) {
+      throw new AppError('This provider does not exists');
+    }
+
     if (getHours(appointmentDate) < 8 || getHours(appointmentDate) > 17) {
       throw new AppError(
         'You can only create an appointment between 8am and 5pm',
@@ -67,7 +79,7 @@ class CreateAppointmentService {
 
     const appointment = await this.appointmentsRepository.create({
       date: appointmentDate,
-      provider_id,
+      provider_id: provider.id,
       user_id,
     });
 
