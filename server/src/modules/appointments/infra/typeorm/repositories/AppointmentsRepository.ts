@@ -5,6 +5,7 @@ import Appointment from '@modules/appointments/infra/typeorm/entities/Appointmen
 import IAppointmentsRepository from '@modules/appointments/repositories/IAppointmentsRepository';
 
 import ICreateAppointmentDTO from '@modules/appointments/dtos/ICreateAppointmentDTO';
+import IFindAppointmentByDateAndProviderDTO from '@modules/appointments/dtos/IFindAppointmentByDateAndProviderDTO';
 import IFindAllInMonthFromProviderDTO from '@modules/appointments/dtos/IFindAllInMonthFromProviderDTO';
 import IFindAllInDayFromProviderDTO from '@modules/appointments/dtos/IFindAllInDayFromProviderDTO';
 
@@ -29,9 +30,12 @@ class AppointmentRepository implements IAppointmentsRepository {
     return appointment;
   }
 
-  public async findByDate(date: Date): Promise<Appointment | null> {
+  public async findByDateAndProvider({
+    date,
+    provider_id,
+  }: IFindAppointmentByDateAndProviderDTO): Promise<Appointment | null> {
     const appointment = await this.repository.findOne({
-      where: { date },
+      where: { date, provider_id },
     });
 
     return appointment || null;

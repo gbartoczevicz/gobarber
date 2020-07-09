@@ -4,6 +4,7 @@ import { isEqual, getMonth, getYear, getDate } from 'date-fns';
 import IAppointmentsRepository from '@modules/appointments/repositories/IAppointmentsRepository';
 
 import ICreateAppointmentDTO from '@modules/appointments/dtos/ICreateAppointmentDTO';
+import IFindAppointmentByDateAndProviderDTO from '@modules/appointments/dtos/IFindAppointmentByDateAndProviderDTO';
 import IFindAllInMonthFromProviderDTO from '@modules/appointments/dtos/IFindAllInMonthFromProviderDTO';
 import IFindAllInDayFromProviderDTO from '@modules/appointments/dtos/IFindAllInDayFromProviderDTO';
 
@@ -30,8 +31,13 @@ class AppointmentsRepository implements IAppointmentsRepository {
     return appointment;
   }
 
-  public async findByDate(date: Date): Promise<Appointment | null> {
-    const findAppointment = this.appointments.find(a => isEqual(a.date, date));
+  public async findByDateAndProvider({
+    provider_id,
+    date,
+  }: IFindAppointmentByDateAndProviderDTO): Promise<Appointment | null> {
+    const findAppointment = this.appointments.find(
+      a => isEqual(a.date, date) && a.provider_id === provider_id,
+    );
 
     return findAppointment || null;
   }

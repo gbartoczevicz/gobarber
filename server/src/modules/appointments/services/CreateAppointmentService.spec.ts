@@ -69,16 +69,10 @@ describe('CreateAppointment', () => {
       .spyOn(Date, 'now')
       .mockImplementationOnce(() => new Date(2020, 4, 10, 12).getTime());
 
-    const provider2 = await fakeUsersRepository.create({
-      name: 'Provider',
-      email: 'provider+02@email.com',
-      password: 'provider',
-    });
-
     await expect(
       createAppointment.execute({
         date: appointmentDate,
-        provider_id: provider2.id,
+        provider_id: provider.id,
         user_id: uuid(),
       }),
     ).rejects.toBeInstanceOf(AppError);
