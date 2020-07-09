@@ -100,11 +100,17 @@ describe('ListProviderMonthAvailability', () => {
       user_id: uuid(),
     });
 
+    jest
+      .spyOn(Date, 'now')
+      .mockImplementation(() => new Date(2020, 4, 19, 0).getTime());
+
     const availability = await listProviderMonthAvailability.execute({
       provider_id: provider.id,
       year: 2020,
       month: 5,
     });
+
+    jest.spyOn(Date, 'now').mockReset();
 
     expect(provider).toHaveProperty('id');
     expect(availability).toEqual(
