@@ -29,7 +29,7 @@ const Message: React.FC<MessageProps> = ({ message, transitionStyle }) => {
   return (
     <Container
       type={message.type}
-      hasDescription={!!message.description}
+      discriminated={Number(!!message.description)}
       style={transitionStyle}
     >
       {icons[message.type || 'info']}

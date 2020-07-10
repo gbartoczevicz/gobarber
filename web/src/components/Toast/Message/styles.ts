@@ -3,7 +3,7 @@ import { animated } from 'react-spring';
 
 interface ToastProps {
   type?: 'info' | 'success' | 'error';
-  hasDescription: boolean;
+  discriminated: number;
 }
 
 const messageTypeVariation = {
@@ -25,15 +25,15 @@ export const Container = styled(animated.div)<ToastProps>`
   width: 360px;
   position: relative;
   padding: 16px 30px 16px 16px;
+  display: flex;
   border-radius: 8px;
   box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
-  display: flex;
-
-  ${props => messageTypeVariation[props.type || 'info']}
 
   & + div {
     margin-top: 12px;
   }
+
+  ${props => messageTypeVariation[props.type || 'info']}
 
   > svg {
     margin: 4px 12px 0 0;
@@ -61,7 +61,7 @@ export const Container = styled(animated.div)<ToastProps>`
   }
 
   ${props =>
-    !props.hasDescription &&
+    !props.discriminated &&
     css`
       align-items: center;
 

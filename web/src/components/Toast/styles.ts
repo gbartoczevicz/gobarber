@@ -6,4 +6,5 @@ export const Container = styled.div`
   top: 0;
   padding: 30px;
   overflow: hidden;
+  max-height: 100vh;
 `;
