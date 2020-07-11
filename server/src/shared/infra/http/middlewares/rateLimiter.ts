@@ -12,7 +12,7 @@ const rateLimiter = new RateLimiterRedis({
   storeClient,
   keyPrefix: 'ratelimit-middleware',
   points: 5,
-  duration: 60,
+  duration: 1,
 });
 
 export default async (
