@@ -173,7 +173,7 @@ export const Sections = styled.section`
   }
 `;
 
-export const Appointment = styled.div`
+export const Appointments = styled.div`
   display: flex;
   align-items: center;
 
@@ -181,11 +181,12 @@ export const Appointment = styled.div`
     margin-top: 16px;
   }
 
-  > span {
+  span {
     margin-left: auto;
     display: flex;
     align-items: center;
     color: #f4ede8;
+    width: 60px;
 
     svg {
       color: #ff9000;
