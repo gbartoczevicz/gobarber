@@ -168,7 +168,7 @@ export const Sections = styled.section`
     margin-bottom: 16px;
 
     &:last-of-type {
-      margin-top: 16px;
+      margin-top: 22px;
     }
   }
 `;
