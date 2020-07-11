@@ -2,9 +2,15 @@ import React, { createContext, useCallback, useState, useContext } from 'react';
 
 import client from '../services/client';
 
+interface User {
+  id: string;
+  avatar_url?: string;
+  name: string;
+}
+
 interface AuthState {
   token: string;
-  user: object;
+  user: User;
 }
 
 interface Credentials {
@@ -13,7 +19,7 @@ interface Credentials {
 }
 
 interface Context {
-  user: object;
+  user: User;
   signIn(c: Credentials): Promise<void>;
   signOut(): void;
 }
@@ -26,6 +32,8 @@ export const AuthProvider: React.FC = ({ children }) => {
     const user = localStorage.getItem('@gobarber/user');
 
     if (token && user) {
+      client.defaults.headers.authorization = `Bearer ${token}`;
+
       return { token, user: JSON.parse(user) };
     }
 
@@ -42,6 +50,8 @@ export const AuthProvider: React.FC = ({ children }) => {
 
     localStorage.setItem('@gobarber/token', token);
     localStorage.setItem('@gobarber/user', JSON.stringify(user));
+
+    client.defaults.headers.authorization = `Bearer ${token}`;
 
     setData({ token, user });
   }, []);
