@@ -61,6 +61,10 @@ export const Profile = styled.div`
 
     strong {
       color: #ff9000;
+
+      &:hover {
+        color: ${shade(0.2, '#ff9000')};
+      }
     }
   }
 `;

@@ -4,6 +4,7 @@ import React, {
   useRef,
   useCallback,
   InputHTMLAttributes,
+  CSSProperties,
 } from 'react';
 import { IconBaseProps } from 'react-icons';
 import { FiAlertTriangle } from 'react-icons/fi';
@@ -14,9 +15,15 @@ import { Container, Error } from './styles';
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
   icon?: React.ComponentType<IconBaseProps>;
+  containerStyle?: CSSProperties;
 }
 
-const Input: React.FC<InputProps> = ({ name, icon: Icon, ...rest }) => {
+const Input: React.FC<InputProps> = ({
+  name,
+  icon: Icon,
+  containerStyle,
+  ...rest
+}) => {
   const [isFocused, setIsFocused] = useState(false);
   const [isFilled, setIsFilled] = useState(false);
 
@@ -42,7 +49,12 @@ const Input: React.FC<InputProps> = ({ name, icon: Icon, ...rest }) => {
   }, []);
 
   return (
-    <Container isErrored={!!error} isFilled={isFilled} isFocused={isFocused}>
+    <Container
+      style={containerStyle}
+      isErrored={!!error}
+      isFilled={isFilled}
+      isFocused={isFocused}
+    >
       {Icon && <Icon size={20} />}
       <input
         defaultValue={defaultValue}
