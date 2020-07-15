@@ -1,4 +1,4 @@
 export default interface ProviderAvailabilityDTO {
-  day: number;
+  hour: number;
   available: boolean;
 }

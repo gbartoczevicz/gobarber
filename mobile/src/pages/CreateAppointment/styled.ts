@@ -12,6 +12,16 @@ interface ProviderNameProps {
   isCurrent: boolean;
 }
 
+interface HourProps {
+  isAvailable: boolean;
+  isSelected: boolean;
+}
+
+interface HourTextProps {
+  isSelected: boolean;
+  isAvailable: boolean;
+}
+
 export const Container = styled.View`
   flex: 1;
 `;
@@ -44,6 +54,8 @@ export const UserAvatar = styled.Image`
   border-radius: 28px;
   margin-left: auto;
 `;
+
+export const Content = styled.ScrollView``;
 
 export const ProvidersListContainer = styled.View`
   height: 112px;
@@ -99,4 +111,51 @@ export const OpenCalendarButtonText = styled.Text`
   font-family: 'RobotoSlab-Medium';
   color: #232129;
   font-size: 18px;
+`;
+
+export const Schedule = styled.View`
+  padding: 24px 0 16px;
+`;
+
+export const ScheduleTitle = styled.Text`
+  color: #f4ede8;
+  font-family: 'RobotoSlab-Medium';
+  line-height: 28px;
+  font-size: 20px;
+  margin: 0 24px 12px;
+`;
+
+export const Section = styled.View`
+  margin-bottom: 24px;
+`;
+
+export const SectionTitle = styled.Text`
+  color: #999591;
+  font-family: 'RobotoSlab-Regular';
+  font-size: 18px;
+  margin: 0 24px 12px;
+`;
+
+export const SectionContent = styled.ScrollView.attrs({
+  horizontal: true,
+  contentContainerStyle: { paddingHorizontal: 24 },
+  showsHorizontalScrollIndicator: false,
+})``;
+
+export const Hour = styled(RectButton)<HourProps>`
+  background: ${props =>
+    props.isSelected && props.isAvailable ? '#ff9000' : '#3e3b47'};
+  flex-direction: row;
+  align-items: center;
+  border-radius: 8px;
+  padding: 12px;
+  margin-right: 8px;
+  opacity: ${props => (props.isAvailable ? 1 : 0.3)};
+`;
+
+export const HourText = styled.Text<HourTextProps>`
+  color: ${props =>
+    props.isSelected && props.isAvailable ? '#232129' : '#f4ede8'};
+  font-family: 'RobotoSlab-Regular';
+  font-size: 16px;
 `;
