@@ -36,7 +36,7 @@ import {
   HourText,
   CreateAppointmentButton,
   CreateAppointmentButtonText,
-} from './styled';
+} from './styles';
 
 import ProviderAvailabilityDTO from './dtos/ProviderAvailabilityDTO';
 
