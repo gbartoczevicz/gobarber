@@ -27,7 +27,7 @@ import ProviderDTO from './dtos/ProviderDTO';
 const Dashboard: React.FC = () => {
   const [providers, setProviders] = useState<ProviderDTO[]>([]);
 
-  const { signOut, user } = useAuth();
+  const { user } = useAuth();
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -39,8 +39,7 @@ const Dashboard: React.FC = () => {
 
   const navigateToProfile = useCallback(() => {
     navigation.navigate('Profile');
-    signOut();
-  }, [navigation, signOut]);
+  }, [navigation]);
 
   const navigateToCreateAppointment = useCallback(
     (providerId: string) => {
