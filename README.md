@@ -7,5 +7,7 @@
 </h3>
 
 <p align="center">
-    [![GitHub license](https://img.shields.io/github/license/gabrielbartoczevicz/gobarber)](https://github.com/gabrielbartoczevicz/gobarber/blob/master/LICENSE)
+    <a href="https://github.com/gabrielbartoczevicz/gobarber/blob/master/LICENSE">
+        <img alt="License" src="https://img.shields.io/github/license/gabrielbartoczevicz/gobarber">
+    </a>
 </p>
