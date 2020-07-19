@@ -1,0 +1,25 @@
+version: '3'
+services:
+  postgres:
+    container_name: gobarber_postgres
+    image: postgres
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_PASSWORD: docker
+    volumes:
+      - ./App/postgres/data:/data
+  mongo:
+    container_name: gobarber_mongo
+    image: mongo
+    ports:
+      - '27017:27017'
+    volumes:
+      - ./App/mongo/data:/data
+  redis:
+    container_name: gobarber_redis
+    image: redis:alpine
+    ports:
+      - '6379:6379'
+    volumes:
+      - ./App/redis/data:/data

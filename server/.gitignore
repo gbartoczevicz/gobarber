@@ -106,3 +106,8 @@ dist
 # File upload
 tmp/uploads/*
 !tmp/uploads/.gitkeep
+
+# Tmp Docker stuff
+App
+
+
