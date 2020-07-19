@@ -25,10 +25,12 @@ import {
   UserAvatarButton,
   UserAvatar,
   Title,
+  Exit,
+  ExitText,
 } from './styles';
 import client from '../../services/client';
 
-interface SignUpFormData {
+interface ProfileFormData {
   name: string;
   email: string;
   current_password: string | null;
@@ -45,65 +47,70 @@ const SignUp: React.FC = () => {
 
   const navigation = useNavigation();
 
-  const { user } = useAuth();
+  const { user, updateUser, signOut } = useAuth();
 
-  const handleSignUp = useCallback(async (data: SignUpFormData) => {
-    formRef.current?.setErrors({});
+  const handleSignUp = useCallback(
+    async (data: ProfileFormData) => {
+      formRef.current?.setErrors({});
 
-    const schema = Yup.object().shape({
-      name: Yup.string().required('Nome obrigatório'),
-      email: Yup.string()
-        .required('E-Mail obrigatório')
-        .email('Digite um e-mail válido'),
-      current_password: Yup.string(),
-      password: Yup.string().when('current_password', {
-        is: val => !!val.length,
-        then: Yup.string().min(8).required('Senha obrigatória'),
-        otherwise: Yup.string(),
-      }),
-      confirmation: Yup.string()
-        .when('current_password', {
+      const schema = Yup.object().shape({
+        name: Yup.string().required('Nome obrigatório'),
+        email: Yup.string()
+          .required('E-Mail obrigatório')
+          .email('Digite um e-mail válido'),
+        current_password: Yup.string(),
+        password: Yup.string().when('current_password', {
           is: val => !!val.length,
           then: Yup.string().min(8).required('Senha obrigatória'),
           otherwise: Yup.string(),
-        })
-        .oneOf(
-          [Yup.ref('password'), null],
-          'A confirmação não coincide com a nova senha',
-        ),
-    });
-
-    try {
-      await schema.validate(data, { abortEarly: false });
-
-      const { name, email, current_password, password, confirmation } = data;
-
-      const formData = {
-        name,
-        email,
-        ...(current_password && {
-          current_password,
-          password,
-          confirmation,
         }),
-      };
+        confirmation: Yup.string()
+          .when('current_password', {
+            is: val => !!val.length,
+            then: Yup.string().min(8).required('Senha obrigatória'),
+            otherwise: Yup.string(),
+          })
+          .oneOf(
+            [Yup.ref('password'), null],
+            'A confirmação não coincide com a nova senha',
+          ),
+      });
 
-      client.put('/profile', formData).then(res => updateUser(res.data));
-    } catch (err) {
-      if (err instanceof Yup.ValidationError) {
-        const errors = getValidationErrors(err);
+      try {
+        await schema.validate(data, { abortEarly: false });
 
-        formRef.current?.setErrors(errors);
+        const { name, email, current_password, password, confirmation } = data;
 
-        return;
+        const formData = {
+          name,
+          email,
+          ...(current_password && {
+            current_password,
+            password,
+            confirmation,
+          }),
+        };
+
+        client.put('/profile', formData).then(res => updateUser(res.data));
+
+        Alert.alert('Perfil atualizado com sucesso!');
+      } catch (err) {
+        if (err instanceof Yup.ValidationError) {
+          const errors = getValidationErrors(err);
+
+          formRef.current?.setErrors(errors);
+
+          return;
+        }
+
+        Alert.alert(
+          'Erro na atualização',
+          'Ocorreu um erro ao fazer a atualização, cheque as credenciais',
+        );
       }
-
-      Alert.alert(
-        'Erro na autenticação',
-        'Ocorreu um erro ao fazer o cadastro, cheque as credenciais',
-      );
-    }
-  }, []);
+    },
+    [updateUser],
+  );
 
   const handleAvatarSubmit = useCallback(() => {
     console.log('e');
@@ -138,7 +145,7 @@ const SignUp: React.FC = () => {
               <Title>Meu perfil</Title>
             </View>
 
-            <Form onSubmit={handleSignUp} ref={formRef}>
+            <Form initialData={user} onSubmit={handleSignUp} ref={formRef}>
               <Input
                 name="name"
                 icon="user"
@@ -194,6 +201,10 @@ const SignUp: React.FC = () => {
               <Button onPress={() => formRef.current?.submitForm()}>
                 Salvar
               </Button>
+
+              <Exit onPress={signOut}>
+                <ExitText>Sair</ExitText>
+              </Exit>
             </Form>
           </Container>
         </ScrollView>

@@ -37,3 +37,14 @@ export const Title = styled.Text`
   font-family: 'RobotoSlab-Medium';
   margin: 24px 0;
 `;
+
+export const Exit = styled.TouchableOpacity`
+  margin-top: 24px;
+  align-items: center;
+`;
+
+export const ExitText = styled.Text`
+  color: #f4ede8;
+  font-size: 16px;
+  font-family: 'RobotoSlab-Regular';
+`;
