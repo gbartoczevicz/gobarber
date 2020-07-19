@@ -6,15 +6,19 @@ import {
   Platform,
   TextInput,
   Alert,
+  PermissionsAndroid,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
 import * as Yup from 'yup';
 import Icon from 'react-native-vector-icons/Feather';
+import ImagePicker from 'react-native-image-picker';
 
+import client from '../../services/client';
 import { useAuth } from '../../hooks/auth';
 import getValidationErrors from '../../utils/getValidationErrors';
+
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 
@@ -28,7 +32,6 @@ import {
   Exit,
   ExitText,
 } from './styles';
-import client from '../../services/client';
 
 interface ProfileFormData {
   name: string;
@@ -112,9 +115,58 @@ const SignUp: React.FC = () => {
     [updateUser],
   );
 
-  const handleAvatarSubmit = useCallback(() => {
-    console.log('e');
-  }, []);
+  const handleUpdateAvatar = useCallback(() => {
+    ImagePicker.showImagePicker(
+      {
+        title: 'Selecione um avatar',
+        cancelButtonTitle: 'Cancelar',
+        takePhotoButtonTitle: 'Usar câmera',
+        chooseFromLibraryButtonTitle: 'Escolher da galeria',
+      },
+      response => {
+        if (response.didCancel) {
+          console.log('User cancelled image picker');
+          return;
+        }
+
+        if (response.error) {
+          Alert.alert(
+            'Erro na atualização',
+            'Ocorreu um erro ao fazer a atualização do seu avatar, tente novamente',
+          );
+
+          console.log('ImagePicker Error: ', response.error);
+
+          return;
+        }
+
+        if (response.customButton) {
+          console.log('User tapped custom button: ', response.customButton);
+          return;
+        }
+
+        const { uri, fileName, type } = response;
+
+        const data = new FormData();
+
+        data.append('avatar', { uri, fileName, type });
+
+        client
+          .patch('/users/avatar', data)
+          .then(res => {
+            updateUser(res.data);
+          })
+          .catch(err => {
+            Alert.alert(
+              'Erro na atualização',
+              'Ocorreu um erro ao fazer a atualização do seu avatar, tente novamente',
+            );
+
+            console.log(err);
+          });
+      },
+    );
+  }, [updateUser]);
 
   const navigateToDashboard = useCallback(() => {
     navigation.navigate('Dashboard');
@@ -136,7 +188,7 @@ const SignUp: React.FC = () => {
               <BackButton onPress={navigateToDashboard}>
                 <Icon name="chevron-left" size={28} color="#999591" />
               </BackButton>
-              <UserAvatarButton onPress={handleAvatarSubmit}>
+              <UserAvatarButton onPress={handleUpdateAvatar}>
                 <UserAvatar source={{ uri: user.avatar_url }} />
               </UserAvatarButton>
             </Header>
