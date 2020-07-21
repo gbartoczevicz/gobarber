@@ -35,7 +35,7 @@ Consulte os README em cada pasta do projeto (server, web, mobile) para executar 
 
 ### Tips 💡
 
-Use o comando ```bash adb reverse tcp:3333 tcp:3333``` para o app na plataforma Android acessar o servidor (e imagens).
+Use o comando ```adb reverse tcp:3333 tcp:3333``` para o app na plataforma Android acessar o servidor (e imagens).
 Tenha o Docker e o Docker Compose para facilitar a execução dos banco de dados do server.
 
 ## Roadmap 🛣️ - Em construção 🚧
