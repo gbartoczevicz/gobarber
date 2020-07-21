@@ -42,15 +42,15 @@ Tenha o Docker e o Docker Compose para facilitar a execução dos banco de dados
 
 Eu vejo que essa aplicação desenvolvida no Go Stack 11 é totalmente escalável, por isso pensei em alguns pontos que podem melhorar e outras coisas que posso implementar ao longo do tempo :)
 
-- [] Sistema de cache ao cadastrar um novo user
-- [] Implementar Toasts como notificações no app mobile
-- [] Melhorar estrutura de diretórios do app mobile
-- [] Implementar recuperar senha no app mobile
-- [] Implementar categorias de serviços no projeto
-- [] Implementar cadastro de endereço de atendimento (Junto de mapas)
-- [] Flexibilizar horário de atendimento
-- [] Adicionar telefone para a comunicação entre usuário e prestador de serviço
-- [] Criar uma aba de notificações
+- [ ] Sistema de cache ao cadastrar um novo user
+- [ ] Implementar Toasts como notificações no app mobile
+- [ ] Melhorar estrutura de diretórios do app mobile
+- [ ] Implementar recuperar senha no app mobile
+- [ ] Implementar categorias de serviços no projeto
+- [ ] Implementar cadastro de endereço de atendimento (Junto de mapas)
+- [ ] Flexibilizar horário de atendimento
+- [ ] Adicionar telefone para a comunicação entre usuário e prestador de serviço
+- [ ] Criar uma aba de notificações
 
 ## 📝 Licença
 
