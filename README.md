@@ -42,7 +42,7 @@ Tenha o Docker e o Docker Compose para facilitar a execução dos banco de dados
 
 A aplicação desenvolvida no Go Stack 11 é totalmente escalável, por isso pensei em alguns pontos que podem melhorar e outras coisas que posso implementar ao longo do tempo :)
 
-- [ ] Sistema de cache ao cadastrar um novo user
+- [ ] Melhorar o sistema de cache
 - [ ] Implementar Toasts como notificações no app mobile
 - [ ] Melhorar estrutura de diretórios do app mobile
 - [ ] Implementar recuperar senha no app mobile
