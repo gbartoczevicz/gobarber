@@ -12,7 +12,7 @@
     <a href="https://github.com/gabrielbartoczevicz/gobarber/blob/master/LICENSE"><img alt="License" src="https://img.shields.io/github/license/gabrielbartoczevicz/gobarber"></a>
 </p>
 
-<h4>About</h4>
+## About
 
 O GoBarber é um aplicativo para ajudar os usuários a agendar serviços de beleza, atualmente serviços de barberaria e corte de cabelo em geral.
 
